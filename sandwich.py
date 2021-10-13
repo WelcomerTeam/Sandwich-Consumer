@@ -44,11 +44,9 @@ class SandwichClient:
         os._exit(0)
 
     async def _on_message(self, msg: Msg):
-        msgData = brotli.decompress(msg.data)
-        print(msgData)
-
-        await self.grpc_test()
-        os._exit(0)
+        if msg.data:
+            msgData = brotli.decompress(msg.data)
+            print(msgData)
 
     async def run(self):
         self.nc = NATS()
