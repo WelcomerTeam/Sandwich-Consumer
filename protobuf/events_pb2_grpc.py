@@ -14,60 +14,84 @@ class SandwichStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.Listen = channel.unary_stream(
+                '/sandwich.Sandwich/Listen',
+                request_serializer=events__pb2.ListenRequest.SerializeToString,
+                response_deserializer=events__pb2.ListenResponse.FromString,
+                )
+        self.PostAnalytics = channel.unary_unary(
+                '/sandwich.Sandwich/PostAnalytics',
+                request_serializer=events__pb2.PostAnalyticsRequest.SerializeToString,
+                response_deserializer=events__pb2.BaseResponse.FromString,
+                )
         self.FetchConsumerConfiguration = channel.unary_unary(
-            '/sandwich.Sandwich/FetchConsumerConfiguration',
-            request_serializer=events__pb2.FetchConsumerConfigurationRequest.SerializeToString,
-            response_deserializer=events__pb2.FetchConsumerConfigurationResponse.FromString,
-        )
+                '/sandwich.Sandwich/FetchConsumerConfiguration',
+                request_serializer=events__pb2.FetchConsumerConfigurationRequest.SerializeToString,
+                response_deserializer=events__pb2.FetchConsumerConfigurationResponse.FromString,
+                )
         self.FetchGuildChannels = channel.unary_unary(
-            '/sandwich.Sandwich/FetchGuildChannels',
-            request_serializer=events__pb2.FetchGuildChannelsRequest.SerializeToString,
-            response_deserializer=events__pb2.ChannelsResponse.FromString,
-        )
+                '/sandwich.Sandwich/FetchGuildChannels',
+                request_serializer=events__pb2.FetchGuildChannelsRequest.SerializeToString,
+                response_deserializer=events__pb2.ChannelsResponse.FromString,
+                )
         self.FetchGuildEmojis = channel.unary_unary(
-            '/sandwich.Sandwich/FetchGuildEmojis',
-            request_serializer=events__pb2.FetchGuildEmojisRequest.SerializeToString,
-            response_deserializer=events__pb2.EmojisResponse.FromString,
-        )
+                '/sandwich.Sandwich/FetchGuildEmojis',
+                request_serializer=events__pb2.FetchGuildEmojisRequest.SerializeToString,
+                response_deserializer=events__pb2.EmojisResponse.FromString,
+                )
         self.FetchGuildMembers = channel.unary_unary(
-            '/sandwich.Sandwich/FetchGuildMembers',
-            request_serializer=events__pb2.FetchGuildMembersRequest.SerializeToString,
-            response_deserializer=events__pb2.GuildMembersResponse.FromString,
-        )
+                '/sandwich.Sandwich/FetchGuildMembers',
+                request_serializer=events__pb2.FetchGuildMembersRequest.SerializeToString,
+                response_deserializer=events__pb2.GuildMembersResponse.FromString,
+                )
         self.FetchGuild = channel.unary_unary(
-            '/sandwich.Sandwich/FetchGuild',
-            request_serializer=events__pb2.FetchGuildRequest.SerializeToString,
-            response_deserializer=events__pb2.GuildsResponse.FromString,
-        )
+                '/sandwich.Sandwich/FetchGuild',
+                request_serializer=events__pb2.FetchGuildRequest.SerializeToString,
+                response_deserializer=events__pb2.GuildsResponse.FromString,
+                )
         self.FetchGuildRoles = channel.unary_unary(
-            '/sandwich.Sandwich/FetchGuildRoles',
-            request_serializer=events__pb2.FetchGuildRolesRequest.SerializeToString,
-            response_deserializer=events__pb2.GuildRolesResponse.FromString,
-        )
+                '/sandwich.Sandwich/FetchGuildRoles',
+                request_serializer=events__pb2.FetchGuildRolesRequest.SerializeToString,
+                response_deserializer=events__pb2.GuildRolesResponse.FromString,
+                )
         self.FetchMutualGuilds = channel.unary_unary(
-            '/sandwich.Sandwich/FetchMutualGuilds',
-            request_serializer=events__pb2.FetchMutualGuildsRequest.SerializeToString,
-            response_deserializer=events__pb2.GuildsResponse.FromString,
-        )
+                '/sandwich.Sandwich/FetchMutualGuilds',
+                request_serializer=events__pb2.FetchMutualGuildsRequest.SerializeToString,
+                response_deserializer=events__pb2.GuildsResponse.FromString,
+                )
         self.RequestGuildChunk = channel.unary_unary(
-            '/sandwich.Sandwich/RequestGuildChunk',
-            request_serializer=events__pb2.RequestGuildChunkRequest.SerializeToString,
-            response_deserializer=events__pb2.BaseResponse.FromString,
-        )
+                '/sandwich.Sandwich/RequestGuildChunk',
+                request_serializer=events__pb2.RequestGuildChunkRequest.SerializeToString,
+                response_deserializer=events__pb2.BaseResponse.FromString,
+                )
         self.SendWebsocketMessage = channel.unary_unary(
-            '/sandwich.Sandwich/SendWebsocketMessage',
-            request_serializer=events__pb2.SendWebsocketMessageRequest.SerializeToString,
-            response_deserializer=events__pb2.BaseResponse.FromString,
-        )
+                '/sandwich.Sandwich/SendWebsocketMessage',
+                request_serializer=events__pb2.SendWebsocketMessageRequest.SerializeToString,
+                response_deserializer=events__pb2.BaseResponse.FromString,
+                )
         self.WhereIsGuild = channel.unary_unary(
-            '/sandwich.Sandwich/WhereIsGuild',
-            request_serializer=events__pb2.WhereIsGuildRequest.SerializeToString,
-            response_deserializer=events__pb2.WhereIsGuildResponse.FromString,
-        )
+                '/sandwich.Sandwich/WhereIsGuild',
+                request_serializer=events__pb2.WhereIsGuildRequest.SerializeToString,
+                response_deserializer=events__pb2.WhereIsGuildResponse.FromString,
+                )
 
 
 class SandwichServicer(object):
     """Missing associated documentation comment in .proto file."""
+
+    def Listen(self, request, context):
+        """Listen delivers information to consumers.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def PostAnalytics(self, request, context):
+        """PostAnalytics is used for consumers to provide information to Sandwich Daemon.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def FetchConsumerConfiguration(self, request, context):
         """FetchConsumerConfiguration returns the Consumer Configuration.
@@ -150,233 +174,276 @@ class SandwichServicer(object):
 
 def add_SandwichServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'FetchConsumerConfiguration': grpc.unary_unary_rpc_method_handler(
-            servicer.FetchConsumerConfiguration,
-            request_deserializer=events__pb2.FetchConsumerConfigurationRequest.FromString,
-            response_serializer=events__pb2.FetchConsumerConfigurationResponse.SerializeToString,
-        ),
-        'FetchGuildChannels': grpc.unary_unary_rpc_method_handler(
-            servicer.FetchGuildChannels,
-            request_deserializer=events__pb2.FetchGuildChannelsRequest.FromString,
-            response_serializer=events__pb2.ChannelsResponse.SerializeToString,
-        ),
-        'FetchGuildEmojis': grpc.unary_unary_rpc_method_handler(
-            servicer.FetchGuildEmojis,
-            request_deserializer=events__pb2.FetchGuildEmojisRequest.FromString,
-            response_serializer=events__pb2.EmojisResponse.SerializeToString,
-        ),
-        'FetchGuildMembers': grpc.unary_unary_rpc_method_handler(
-            servicer.FetchGuildMembers,
-            request_deserializer=events__pb2.FetchGuildMembersRequest.FromString,
-            response_serializer=events__pb2.GuildMembersResponse.SerializeToString,
-        ),
-        'FetchGuild': grpc.unary_unary_rpc_method_handler(
-            servicer.FetchGuild,
-            request_deserializer=events__pb2.FetchGuildRequest.FromString,
-            response_serializer=events__pb2.GuildsResponse.SerializeToString,
-        ),
-        'FetchGuildRoles': grpc.unary_unary_rpc_method_handler(
-            servicer.FetchGuildRoles,
-            request_deserializer=events__pb2.FetchGuildRolesRequest.FromString,
-            response_serializer=events__pb2.GuildRolesResponse.SerializeToString,
-        ),
-        'FetchMutualGuilds': grpc.unary_unary_rpc_method_handler(
-            servicer.FetchMutualGuilds,
-            request_deserializer=events__pb2.FetchMutualGuildsRequest.FromString,
-            response_serializer=events__pb2.GuildsResponse.SerializeToString,
-        ),
-        'RequestGuildChunk': grpc.unary_unary_rpc_method_handler(
-            servicer.RequestGuildChunk,
-            request_deserializer=events__pb2.RequestGuildChunkRequest.FromString,
-            response_serializer=events__pb2.BaseResponse.SerializeToString,
-        ),
-        'SendWebsocketMessage': grpc.unary_unary_rpc_method_handler(
-            servicer.SendWebsocketMessage,
-            request_deserializer=events__pb2.SendWebsocketMessageRequest.FromString,
-            response_serializer=events__pb2.BaseResponse.SerializeToString,
-        ),
-        'WhereIsGuild': grpc.unary_unary_rpc_method_handler(
-            servicer.WhereIsGuild,
-            request_deserializer=events__pb2.WhereIsGuildRequest.FromString,
-            response_serializer=events__pb2.WhereIsGuildResponse.SerializeToString,
-        ),
+            'Listen': grpc.unary_stream_rpc_method_handler(
+                    servicer.Listen,
+                    request_deserializer=events__pb2.ListenRequest.FromString,
+                    response_serializer=events__pb2.ListenResponse.SerializeToString,
+            ),
+            'PostAnalytics': grpc.unary_unary_rpc_method_handler(
+                    servicer.PostAnalytics,
+                    request_deserializer=events__pb2.PostAnalyticsRequest.FromString,
+                    response_serializer=events__pb2.BaseResponse.SerializeToString,
+            ),
+            'FetchConsumerConfiguration': grpc.unary_unary_rpc_method_handler(
+                    servicer.FetchConsumerConfiguration,
+                    request_deserializer=events__pb2.FetchConsumerConfigurationRequest.FromString,
+                    response_serializer=events__pb2.FetchConsumerConfigurationResponse.SerializeToString,
+            ),
+            'FetchGuildChannels': grpc.unary_unary_rpc_method_handler(
+                    servicer.FetchGuildChannels,
+                    request_deserializer=events__pb2.FetchGuildChannelsRequest.FromString,
+                    response_serializer=events__pb2.ChannelsResponse.SerializeToString,
+            ),
+            'FetchGuildEmojis': grpc.unary_unary_rpc_method_handler(
+                    servicer.FetchGuildEmojis,
+                    request_deserializer=events__pb2.FetchGuildEmojisRequest.FromString,
+                    response_serializer=events__pb2.EmojisResponse.SerializeToString,
+            ),
+            'FetchGuildMembers': grpc.unary_unary_rpc_method_handler(
+                    servicer.FetchGuildMembers,
+                    request_deserializer=events__pb2.FetchGuildMembersRequest.FromString,
+                    response_serializer=events__pb2.GuildMembersResponse.SerializeToString,
+            ),
+            'FetchGuild': grpc.unary_unary_rpc_method_handler(
+                    servicer.FetchGuild,
+                    request_deserializer=events__pb2.FetchGuildRequest.FromString,
+                    response_serializer=events__pb2.GuildsResponse.SerializeToString,
+            ),
+            'FetchGuildRoles': grpc.unary_unary_rpc_method_handler(
+                    servicer.FetchGuildRoles,
+                    request_deserializer=events__pb2.FetchGuildRolesRequest.FromString,
+                    response_serializer=events__pb2.GuildRolesResponse.SerializeToString,
+            ),
+            'FetchMutualGuilds': grpc.unary_unary_rpc_method_handler(
+                    servicer.FetchMutualGuilds,
+                    request_deserializer=events__pb2.FetchMutualGuildsRequest.FromString,
+                    response_serializer=events__pb2.GuildsResponse.SerializeToString,
+            ),
+            'RequestGuildChunk': grpc.unary_unary_rpc_method_handler(
+                    servicer.RequestGuildChunk,
+                    request_deserializer=events__pb2.RequestGuildChunkRequest.FromString,
+                    response_serializer=events__pb2.BaseResponse.SerializeToString,
+            ),
+            'SendWebsocketMessage': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendWebsocketMessage,
+                    request_deserializer=events__pb2.SendWebsocketMessageRequest.FromString,
+                    response_serializer=events__pb2.BaseResponse.SerializeToString,
+            ),
+            'WhereIsGuild': grpc.unary_unary_rpc_method_handler(
+                    servicer.WhereIsGuild,
+                    request_deserializer=events__pb2.WhereIsGuildRequest.FromString,
+                    response_serializer=events__pb2.WhereIsGuildResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'sandwich.Sandwich', rpc_method_handlers)
+            'sandwich.Sandwich', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
+
  # This class is part of an EXPERIMENTAL API.
-
-
 class Sandwich(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
+    def Listen(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/sandwich.Sandwich/Listen',
+            events__pb2.ListenRequest.SerializeToString,
+            events__pb2.ListenResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def PostAnalytics(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/PostAnalytics',
+            events__pb2.PostAnalyticsRequest.SerializeToString,
+            events__pb2.BaseResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def FetchConsumerConfiguration(request,
-                                   target,
-                                   options=(),
-                                   channel_credentials=None,
-                                   call_credentials=None,
-                                   insecure=False,
-                                   compression=None,
-                                   wait_for_ready=None,
-                                   timeout=None,
-                                   metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/FetchConsumerConfiguration',
-                                             events__pb2.FetchConsumerConfigurationRequest.SerializeToString,
-                                             events__pb2.FetchConsumerConfigurationResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.FetchConsumerConfigurationRequest.SerializeToString,
+            events__pb2.FetchConsumerConfigurationResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def FetchGuildChannels(request,
-                           target,
-                           options=(),
-                           channel_credentials=None,
-                           call_credentials=None,
-                           insecure=False,
-                           compression=None,
-                           wait_for_ready=None,
-                           timeout=None,
-                           metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/FetchGuildChannels',
-                                             events__pb2.FetchGuildChannelsRequest.SerializeToString,
-                                             events__pb2.ChannelsResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.FetchGuildChannelsRequest.SerializeToString,
+            events__pb2.ChannelsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def FetchGuildEmojis(request,
-                         target,
-                         options=(),
-                         channel_credentials=None,
-                         call_credentials=None,
-                         insecure=False,
-                         compression=None,
-                         wait_for_ready=None,
-                         timeout=None,
-                         metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/FetchGuildEmojis',
-                                             events__pb2.FetchGuildEmojisRequest.SerializeToString,
-                                             events__pb2.EmojisResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.FetchGuildEmojisRequest.SerializeToString,
+            events__pb2.EmojisResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def FetchGuildMembers(request,
-                          target,
-                          options=(),
-                          channel_credentials=None,
-                          call_credentials=None,
-                          insecure=False,
-                          compression=None,
-                          wait_for_ready=None,
-                          timeout=None,
-                          metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/FetchGuildMembers',
-                                             events__pb2.FetchGuildMembersRequest.SerializeToString,
-                                             events__pb2.GuildMembersResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.FetchGuildMembersRequest.SerializeToString,
+            events__pb2.GuildMembersResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def FetchGuild(request,
-                   target,
-                   options=(),
-                   channel_credentials=None,
-                   call_credentials=None,
-                   insecure=False,
-                   compression=None,
-                   wait_for_ready=None,
-                   timeout=None,
-                   metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/FetchGuild',
-                                             events__pb2.FetchGuildRequest.SerializeToString,
-                                             events__pb2.GuildsResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.FetchGuildRequest.SerializeToString,
+            events__pb2.GuildsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def FetchGuildRoles(request,
-                        target,
-                        options=(),
-                        channel_credentials=None,
-                        call_credentials=None,
-                        insecure=False,
-                        compression=None,
-                        wait_for_ready=None,
-                        timeout=None,
-                        metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/FetchGuildRoles',
-                                             events__pb2.FetchGuildRolesRequest.SerializeToString,
-                                             events__pb2.GuildRolesResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.FetchGuildRolesRequest.SerializeToString,
+            events__pb2.GuildRolesResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def FetchMutualGuilds(request,
-                          target,
-                          options=(),
-                          channel_credentials=None,
-                          call_credentials=None,
-                          insecure=False,
-                          compression=None,
-                          wait_for_ready=None,
-                          timeout=None,
-                          metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/FetchMutualGuilds',
-                                             events__pb2.FetchMutualGuildsRequest.SerializeToString,
-                                             events__pb2.GuildsResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.FetchMutualGuildsRequest.SerializeToString,
+            events__pb2.GuildsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def RequestGuildChunk(request,
-                          target,
-                          options=(),
-                          channel_credentials=None,
-                          call_credentials=None,
-                          insecure=False,
-                          compression=None,
-                          wait_for_ready=None,
-                          timeout=None,
-                          metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/RequestGuildChunk',
-                                             events__pb2.RequestGuildChunkRequest.SerializeToString,
-                                             events__pb2.BaseResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.RequestGuildChunkRequest.SerializeToString,
+            events__pb2.BaseResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def SendWebsocketMessage(request,
-                             target,
-                             options=(),
-                             channel_credentials=None,
-                             call_credentials=None,
-                             insecure=False,
-                             compression=None,
-                             wait_for_ready=None,
-                             timeout=None,
-                             metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/SendWebsocketMessage',
-                                             events__pb2.SendWebsocketMessageRequest.SerializeToString,
-                                             events__pb2.BaseResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.SendWebsocketMessageRequest.SerializeToString,
+            events__pb2.BaseResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
     def WhereIsGuild(request,
-                     target,
-                     options=(),
-                     channel_credentials=None,
-                     call_credentials=None,
-                     insecure=False,
-                     compression=None,
-                     wait_for_ready=None,
-                     timeout=None,
-                     metadata=None):
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sandwich.Sandwich/WhereIsGuild',
-                                             events__pb2.WhereIsGuildRequest.SerializeToString,
-                                             events__pb2.WhereIsGuildResponse.FromString,
-                                             options, channel_credentials,
-                                             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            events__pb2.WhereIsGuildRequest.SerializeToString,
+            events__pb2.WhereIsGuildResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
