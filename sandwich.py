@@ -1,6 +1,5 @@
 import argparse
 import asyncio
-import brotli
 import traceback
 import os
 
@@ -30,7 +29,8 @@ class SandwichClient:
         self._client_id: str = client_id
         self._subject: str = subject
 
-        self._channel: grpc.Channel = grpc.aio.insecure_channel("127.0.0.1:15000")
+        self._channel: grpc.Channel = grpc.aio.insecure_channel(
+            "127.0.0.1:15000")
         self.stub: events_pb2_grpc.SandwichStub = events_pb2_grpc.SandwichStub(
             self._channel
         )
@@ -48,8 +48,7 @@ class SandwichClient:
 
     async def _on_message(self, msg: Msg):
         if msg.data:
-            msgData = brotli.decompress(msg.data)
-            print("MQ>", msgData)
+            print("MQ>", msg.data)
 
     async def _grpc_stream_test(self):
         received_message: events_pb2.ListenResponse
